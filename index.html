@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>안내서비스 찾기 · 분야별 문의기관</title>
+<meta name="description" content="민원·복지·세금·교통·재난·일자리·교육 안내서비스를 분야와 문의기관별로 찾아보세요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#14202e; --muted:#51606f; --line:#d5dbe3; --bg:#eef1f5; --paper:#fff;
+  --navy:#1b4a7a; --red:#c84b2c; --green:#2d8a52; --purple:#5a3c8c;
+  --focus:#0b57d0;
+  --c-민원:#1b4a7a; --c-복지:#2d8a52; --c-세금:#5a3c8c; --c-교통:#c84b2c;
+  --c-재난:#8f5f00; --c-일자리:#1f7a7a; --c-교육:#a63a6b;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;line-height:1.6;word-break:keep-all}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+
+/* 상단 */
+header.top{background:var(--paper);border-bottom:1px solid var(--line)}
+header.top .wrap{padding-top:44px;padding-bottom:28px;display:flex;flex-wrap:wrap;gap:16px 40px;align-items:flex-end;justify-content:space-between}
+h1{margin:0;font-size:clamp(30px,5.2vw,52px);line-height:1.15;font-weight:900;letter-spacing:-.03em}
+.lede{margin:10px 0 0;color:var(--muted);max-width:34em}
+.totals{display:flex;gap:28px;margin:0;padding:0;list-style:none}
+.totals li{font-size:14px;color:var(--muted)}
+.totals b{display:block;font-size:34px;line-height:1.1;color:var(--ink);font-weight:900;letter-spacing:-.02em}
+
+/* 카드뉴스 */
+.news{background:var(--paper);padding-bottom:36px}
+.news-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin:0;padding:0;list-style:none}
+.news-grid li{margin:0}
+.news-grid img{display:block;width:100%;height:auto;aspect-ratio:1/1;object-fit:cover}
+.news-cap{margin:10px 0 0;font-size:13px;color:var(--muted)}
+.news .wrap{padding-top:28px}
+@media (max-width:640px){.news-grid{grid-template-columns:repeat(2,1fr)}}
+
+/* 검색 */
+.finder{position:sticky;top:0;z-index:5;background:var(--ink);color:#fff}
+.finder .wrap{padding-top:16px;padding-bottom:16px;display:grid;gap:12px;grid-template-columns:1fr auto auto;align-items:end}
+.finder label{display:block;font-size:13px;margin-bottom:4px;color:#c9d3df}
+.finder input,.finder select{width:100%;height:46px;border:2px solid transparent;border-radius:4px;padding:0 12px;font:inherit;font-size:16px;color:var(--ink);background:#fff}
+.finder select{min-width:180px}
+.finder button.reset{height:46px;padding:0 18px;border:2px solid #fff;background:transparent;color:#fff;font:inherit;font-weight:700;border-radius:4px;cursor:pointer}
+.finder button.reset:hover{background:#fff;color:var(--ink)}
+.chips{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px}
+.chip{height:36px;padding:0 14px;border-radius:18px;border:2px solid #6b7b8c;background:transparent;color:#fff;font:inherit;font-size:14px;cursor:pointer}
+.chip[aria-pressed="true"]{background:#fff;color:var(--ink);border-color:#fff;font-weight:700}
+@media (max-width:760px){.finder .wrap{grid-template-columns:1fr 1fr}.finder .kw{grid-column:1/-1}.finder select{min-width:0}}
+
+/* 결과 */
+.status{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;padding:28px 0 12px}
+.status h2{margin:0;font-size:26px;font-weight:900;letter-spacing:-.02em}
+.status p{margin:0;color:var(--muted);font-size:14px}
+
+/* 카테고리 카드 */
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin:0;padding:0;list-style:none}
+.cat{all:unset;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between;min-height:190px;width:100%;padding:18px 20px;color:#fff;background:var(--cc);cursor:pointer;position:relative}
+.cat:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+.cat[aria-pressed="true"]{box-shadow:inset 0 0 0 4px #fff,0 0 0 3px var(--cc)}
+.cat .n{font-size:20px;font-weight:700}
+.cat .cnt{font-size:56px;font-weight:900;line-height:1;letter-spacing:-.04em}
+.cat .cnt small{font-size:16px;font-weight:500;margin-left:4px;letter-spacing:0}
+.cat .rep{font-size:14px;border-top:1px solid rgba(255,255,255,.45);padding-top:10px;margin-top:14px}
+.cat .rep span{opacity:.85}
+.cat .rep b{font-weight:700}
+
+/* 서비스 목록 */
+.list{margin:36px 0 0;padding:0;list-style:none;background:var(--paper);border:1px solid var(--line)}
+.row{display:grid;grid-template-columns:70px 1.6fr 100px 1.2fr 90px 110px;gap:8px 14px;align-items:center;padding:14px 18px;border-bottom:1px solid var(--line);border-left:6px solid var(--cc,#999)}
+.row:last-child{border-bottom:0}
+.row.head{background:#f6f8fa;font-size:13px;color:var(--muted);font-weight:700;border-left-color:transparent;padding-top:10px;padding-bottom:10px}
+.id{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.name{font-weight:700}
+.tag{display:inline-block;padding:1px 10px;border-radius:12px;background:var(--cc);color:#fff;font-size:13px;font-weight:500;justify-self:start}
+.on{font-size:14px}
+.on.yes::before,.on.no::before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;background:var(--green)}
+.on.no::before{background:transparent;border:2px solid #7a8794;width:9px;height:9px}
+.tel{font-variant-numeric:tabular-nums;font-weight:500;text-decoration:none;border-bottom:1px solid var(--line)}
+.tel:hover{border-color:var(--ink)}
+@media (max-width:820px){
+  .row.head{display:none}
+  .row{grid-template-columns:1fr auto;gap:4px 12px}
+  .row .id{grid-column:2;grid-row:1;text-align:right}
+  .row .name{grid-column:1;grid-row:1}
+  .row .tag{grid-column:1}
+  .row .org,.row .on,.row .tel{grid-column:1/-1;font-size:14px}
+}
+.empty{padding:48px 20px;text-align:center;background:var(--paper);border:1px solid var(--line)}
+.empty b{display:block;font-size:20px;margin-bottom:6px}
+footer{padding:40px 0 60px;color:var(--muted);font-size:13px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div>
+      <h1>안내서비스 찾기</h1>
+      <p class="lede">분야와 문의기관을 고르면 해당 안내서비스와 콜센터 번호를 바로 확인할 수 있습니다.</p>
+    </div>
+    <ul class="totals" aria-label="전체 현황">
+      <li><b id="t-all">0</b>안내서비스</li>
+      <li><b id="t-cat">0</b>분야</li>
+      <li><b id="t-org">0</b>문의기관</li>
+    </ul>
+  </div>
+</header>
+
+<section class="news" aria-labelledby="news-h">
+  <h2 id="news-h" class="sr">생활안전 카드뉴스</h2>
+  <ul class="news-grid">
+    <li><img src="images/cardnews1.png" alt="카드뉴스 1: 생활안전 캠페인. 어린이·노인 보호, 4대 분야 추진, 참여 시설 확대" width="1080" height="1080" loading="eager"></li>
+    <li><img src="images/cardnews2.png" alt="카드뉴스 2: 어린이 안전. 어린이집 안전 점검, 등하굣길 캠페인, 실내 안전 교육" width="1080" height="1080"></li>
+    <li><img src="images/cardnews3.png" alt="카드뉴스 3: 교통안전. 신호 준수 캠페인, 방어운전 교육, 어르신 보행자 보호" width="1080" height="1080"></li>
+    <li><img src="images/cardnews4.png" alt="카드뉴스 4: 화재 예방. 주거시설 점검, 전통시장 안전, 캠핑장 화재 예방" width="1080" height="1080"></li>
+  </ul>
+  <div class="wrap"><p class="news-cap">생활안전 캠페인 카드뉴스 1~4</p></div>
+</section>
+
+<form class="finder" role="search" onsubmit="return false" aria-label="안내서비스 검색">
+  <div class="wrap">
+    <div class="kw">
+      <label for="q">키워드</label>
+      <input id="q" type="search" placeholder="분야, 문의기관 또는 서비스명" autocomplete="off">
+    </div>
+    <div>
+      <label for="org">문의기관</label>
+      <select id="org"></select>
+    </div>
+    <button type="button" class="reset" id="reset">초기화</button>
+    <div class="chips" id="chips" role="group" aria-label="분야 선택"></div>
+  </div>
+</form>
+
+<main class="wrap">
+  <div class="status">
+    <h2 id="count" aria-live="polite">결과 0건</h2>
+    <p id="filters-desc">전체 분야 · 전체 문의기관</p>
+  </div>
+
+  <ul class="cats" id="cats" aria-label="분야별 카드"></ul>
+
+  <ul class="list" id="list" aria-label="안내서비스 목록"></ul>
+  <div class="empty" id="empty" hidden><b>일치하는 안내서비스가 없습니다.</b>키워드를 줄이거나 [초기화]를 눌러 다시 검색해 보세요.</div>
+</main>
+
+<footer><div class="wrap">자료: 안내서비스.csv (24건). 콜센터 번호를 누르면 전화 앱이 열립니다.</div></footer>
+
+<script>
+const DATA = [{"서비스ID": "A001", "서비스명": "주민등록 발급 안내", "안내분야": "민원", "소관기관": "국토교통부", "온라인안내": "가능", "콜센터": "1374", "카테고리": "민원", "문의기관": "국토교통부"}, {"서비스ID": "A002", "서비스명": "전입신고 안내", "안내분야": "민원", "소관기관": "보건복지부", "온라인안내": "가능", "콜센터": "1352", "카테고리": "민원", "문의기관": "보건복지부"}, {"서비스ID": "A003", "서비스명": "인감증명 안내", "안내분야": "민원", "소관기관": "국토교통부", "온라인안내": "가능", "콜센터": "1313", "카테고리": "민원", "문의기관": "국토교통부"}, {"서비스ID": "A004", "서비스명": "민원접수 안내", "안내분야": "민원", "소관기관": "교육부", "온라인안내": "가능", "콜센터": "1341", "카테고리": "민원", "문의기관": "교육부"}, {"서비스ID": "A005", "서비스명": "정부24 이용 안내", "안내분야": "민원", "소관기관": "국토교통부", "온라인안내": "가능", "콜센터": "1356", "카테고리": "민원", "문의기관": "국토교통부"}, {"서비스ID": "A006", "서비스명": "기초연금 안내", "안내분야": "복지", "소관기관": "보건복지부", "온라인안내": "불가", "콜센터": "1386", "카테고리": "복지", "문의기관": "보건복지부"}, {"서비스ID": "A007", "서비스명": "복지급여 안내", "안내분야": "복지", "소관기관": "고용노동부", "온라인안내": "가능", "콜센터": "1319", "카테고리": "복지", "문의기관": "고용노동부"}, {"서비스ID": "A008", "서비스명": "장애인지원 안내", "안내분야": "복지", "소관기관": "보건복지부", "온라인안내": "가능", "콜센터": "1337", "카테고리": "복지", "문의기관": "보건복지부"}, {"서비스ID": "A009", "서비스명": "아동수당 안내", "안내분야": "복지", "소관기관": "지자체", "온라인안내": "가능", "콜센터": "1326", "카테고리": "복지", "문의기관": "지자체"}, {"서비스ID": "A010", "서비스명": "지방세 납부 안내", "안내분야": "세금", "소관기관": "보건복지부", "온라인안내": "가능", "콜센터": "1357", "카테고리": "세금", "문의기관": "보건복지부"}, {"서비스ID": "A011", "서비스명": "취득세 안내", "안내분야": "세금", "소관기관": "지자체", "온라인안내": "가능", "콜센터": "1341", "카테고리": "세금", "문의기관": "지자체"}, {"서비스ID": "A012", "서비스명": "재산세 안내", "안내분야": "세금", "소관기관": "지자체", "온라인안내": "가능", "콜센터": "1317", "카테고리": "세금", "문의기관": "지자체"}, {"서비스ID": "A013", "서비스명": "자동차등록 안내", "안내분야": "교통", "소관기관": "국토교통부", "온라인안내": "가능", "콜센터": "1399", "카테고리": "교통", "문의기관": "국토교통부"}, {"서비스ID": "A014", "서비스명": "운전면허 안내", "안내분야": "교통", "소관기관": "보건복지부", "온라인안내": "불가", "콜센터": "1357", "카테고리": "교통", "문의기관": "보건복지부"}, {"서비스ID": "A015", "서비스명": "주정차단속 안내", "안내분야": "교통", "소관기관": "국토교통부", "온라인안내": "가능", "콜센터": "1367", "카테고리": "교통", "문의기관": "국토교통부"}, {"서비스ID": "A016", "서비스명": "재난지원금 안내", "안내분야": "재난", "소관기관": "행정안전부", "온라인안내": "불가", "콜센터": "1356", "카테고리": "재난", "문의기관": "행정안전부"}, {"서비스ID": "A017", "서비스명": "대피소 안내", "안내분야": "재난", "소관기관": "국세청", "온라인안내": "가능", "콜센터": "1359", "카테고리": "재난", "문의기관": "국세청"}, {"서비스ID": "A018", "서비스명": "안전신고 안내", "안내분야": "재난", "소관기관": "국세청", "온라인안내": "가능", "콜센터": "1357", "카테고리": "재난", "문의기관": "국세청"}, {"서비스ID": "A019", "서비스명": "국민취업지원 안내", "안내분야": "일자리", "소관기관": "지자체", "온라인안내": "가능", "콜센터": "1386", "카테고리": "일자리", "문의기관": "지자체"}, {"서비스ID": "A020", "서비스명": "구직급여 안내", "안내분야": "일자리", "소관기관": "국토교통부", "온라인안내": "불가", "콜센터": "1350", "카테고리": "일자리", "문의기관": "국토교통부"}, {"서비스ID": "A021", "서비스명": "청년일자리 안내", "안내분야": "일자리", "소관기관": "지자체", "온라인안내": "가능", "콜센터": "1392", "카테고리": "일자리", "문의기관": "지자체"}, {"서비스ID": "A022", "서비스명": "평생교육 안내", "안내분야": "교육", "소관기관": "지자체", "온라인안내": "가능", "콜센터": "1379", "카테고리": "교육", "문의기관": "지자체"}, {"서비스ID": "A023", "서비스명": "학자금 안내", "안내분야": "교육", "소관기관": "지자체", "온라인안내": "가능", "콜센터": "1324", "카테고리": "교육", "문의기관": "지자체"}, {"서비스ID": "A024", "서비스명": "교육비지원 안내", "안내분야": "교육", "소관기관": "행정안전부", "온라인안내": "가능", "콜센터": "1368", "카테고리": "교육", "문의기관": "행정안전부"}];
+
+const $ = id => document.getElementById(id);
+const state = { q:"", cat:"", org:"" };
+const cats = [...new Set(DATA.map(d => d.카테고리))];
+const orgs = [...new Set(DATA.map(d => d.문의기관))].sort((a,b)=>a.localeCompare(b,"ko"));
+
+$("t-all").textContent = DATA.length;
+$("t-cat").textContent = cats.length;
+$("t-org").textContent = orgs.length;
+
+// 컨트롤 구성
+$("org").innerHTML = '<option value="">전체 문의기관</option>' + orgs.map(o=>`<option>${o}</option>`).join("");
+$("chips").innerHTML = ['<button type="button" class="chip" data-cat="" aria-pressed="true">전체</button>']
+  .concat(cats.map(c=>`<button type="button" class="chip" data-cat="${c}" aria-pressed="false">${c}</button>`)).join("");
+
+const color = c => `var(--c-${c})`;
+const esc = s => String(s).replace(/[&<>"]/g, m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
+
+function match(d){
+  if(state.cat && d.카테고리 !== state.cat) return false;
+  if(state.org && d.문의기관 !== state.org) return false;
+  const q = state.q.trim().toLowerCase();
+  if(q && !(d.카테고리+" "+d.문의기관+" "+d.서비스명).toLowerCase().includes(q)) return false;
+  return true;
+}
+
+// 분야별 대표 문의기관 = 해당 분야에서 가장 많이 나온 기관(동률이면 먼저 나온 기관)
+function repOrg(items){
+  const m = new Map();
+  items.forEach(d=>m.set(d.문의기관,(m.get(d.문의기관)||0)+1));
+  let best=null,n=0;
+  for(const [k,v] of m) if(v>n){best=k;n=v}
+  return {name:best,n};
+}
+
+function render(){
+  const rows = DATA.filter(match);
+  $("count").textContent = `결과 ${rows.length}건`;
+  $("filters-desc").textContent = [
+    state.cat||"전체 분야", state.org||"전체 문의기관", state.q.trim()?`“${state.q.trim()}”`:null
+  ].filter(Boolean).join(" · ");
+
+  // 카테고리 카드 (현재 조건에 맞는 건수 기준)
+  $("cats").innerHTML = cats.map(c=>{
+    const items = rows.filter(d=>d.카테고리===c);
+    if(!items.length) return "";
+    const r = repOrg(items);
+    const on = state.cat===c;
+    return `<li><button type="button" class="cat" style="--cc:${color(c)}" data-cat="${c}" aria-pressed="${on}" aria-label="${c} ${items.length}건, 대표 문의기관 ${r.name}">
+      <span class="n">${c}</span>
+      <span class="cnt">${items.length}<small>건</small></span>
+      <span class="rep"><span>대표 문의기관</span> <b>${esc(r.name)}</b></span>
+    </button></li>`;
+  }).join("");
+
+  // 서비스 목록
+  $("empty").hidden = rows.length>0;
+  $("list").hidden = rows.length===0;
+  $("list").innerHTML = rows.length ? `<li class="row head" aria-hidden="true"><span>ID</span><span>서비스명</span><span>분야</span><span>문의기관</span><span>온라인</span><span>콜센터</span></li>` +
+    rows.map(d=>`<li class="row" style="--cc:${color(d.카테고리)}">
+      <span class="id">${d.서비스ID}</span>
+      <span class="name">${esc(d.서비스명)}</span>
+      <span class="tag">${d.카테고리}</span>
+      <span class="org">${esc(d.문의기관)}</span>
+      <span class="on ${d.온라인안내==="가능"?"yes":"no"}">${d.온라인안내==="가능"?"온라인 가능":"온라인 불가"}</span>
+      <a class="tel" href="tel:${d.콜센터}">${d.콜센터}</a>
+    </li>`).join("") : "";
+
+  // 칩 상태 동기화
+  document.querySelectorAll(".chip").forEach(b=>b.setAttribute("aria-pressed", String(b.dataset.cat===state.cat)));
+}
+
+function setCat(c){ state.cat = (state.cat===c ? "" : c); render(); }
+
+$("q").addEventListener("input", e=>{ state.q=e.target.value; render(); });
+$("org").addEventListener("change", e=>{ state.org=e.target.value; render(); });
+$("chips").addEventListener("click", e=>{ const b=e.target.closest(".chip"); if(b){ state.cat=b.dataset.cat; render(); }});
+$("cats").addEventListener("click", e=>{ const b=e.target.closest(".cat"); if(b){ const f=b.dataset.cat; setCat(f); const nb=document.querySelector(`.cat[data-cat="${f}"]`); if(nb) nb.focus(); }});
+$("reset").addEventListener("click", ()=>{ state.q="";state.cat="";state.org=""; $("q").value="";$("org").value=""; render(); $("q").focus(); });
+
+render();
+</script>
+</body>
+</html>
